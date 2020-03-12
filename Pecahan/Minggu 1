@@ -1,0 +1,135 @@
+import java.util.Scanner;
+
+public class T1Pecahan {	
+	public static int fpb (int a, int b) {
+		if (a == 0) return b;
+		return fpb (b % a, a);
+	}
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner (System.in);
+		
+		System.out.println("Selamat datang di converter pecahan sederhana ini");
+		System.out.println("Silahkan pilih mode yang diinginkan: ");
+		System.out.println("1. Input pecahan biasa");
+		System.out.println("2. Input pecahan campuran");
+		System.out.println("3. Input bilangan desimal");
+		
+		int pilihan = scan.nextInt();
+		scan.nextLine();
+		
+		switch (pilihan) {
+		case 1:
+			System.out.println("Masukkan pecahan biasa yang diinginkan: ");
+			
+			String pembagi = scan.next();
+			String[] strpembagi = pembagi.split ("/", 2);
+			String bagian1 = strpembagi[0];
+			String bagian2 = strpembagi[1];
+			
+			int pembilang1 = Integer.parseInt(bagian1);
+			int penyebut1 = Integer.parseInt(bagian2);
+			
+			int fpb = fpb (pembilang1, penyebut1);
+			
+			double desimal = (double) pembilang1 / penyebut1;
+			int bil = (int) Math.floor(pembilang1 / penyebut1);
+			
+			System.out.println("Hasil pecahan tersebut sama dengan:");
+			System.out.println("Desimal: " + desimal);
+			
+			if (pembilang1 < 0 | penyebut1 < 0) {
+				int nbil = (int) Math.abs(pembilang1 / penyebut1);
+				
+				System.out.println("Pecahan biasa: " + (pembilang1 / fpb) * -1 + "/" + Math.abs(penyebut1 / fpb));
+				System.out.println("Pecahan campuran: " + nbil * -1 + " " + (Math.abs((pembilang1 - bil * penyebut1) / fpb)) * -1 + "/" + (Math.abs(penyebut1 / fpb)));
+				
+			} else {
+				System.out.println("Pecahan biasa: " + (pembilang1 / fpb) + "/" + (penyebut1 / fpb));
+				System.out.println("Pecahan campuran: " + bil + " " + ((pembilang1 - bil * penyebut1) / fpb) + "/" + (penyebut1 / fpb));
+			}
+			
+			break;
+			
+		case 2:
+			System.out.println("Masukkan pecahan campuran yang diinginkan: ");
+			
+			String pembagi2 = scan.nextLine();
+			String[] strpembagi2 = pembagi2.split("\\s|/");
+			String bagian3 = strpembagi2[0];
+			String bagian4 = strpembagi2[1];
+			String bagian5 = strpembagi2[2];
+			
+			int bil2 = Integer.parseInt(bagian3);
+			int pembilang2 = Integer.parseInt(bagian4);
+			int penyebut2 = Integer.parseInt(bagian5);
+			
+			int fpb2 = fpb (pembilang2, penyebut2);
+			
+			double desimal2 = (double) (bil2 * penyebut2 + pembilang2) / penyebut2;
+			
+			System.out.println("Hasil pecahan tersebut sama dengan:");
+			
+			if (bil2 < 0) {
+				int nbil2 = Math.abs(Integer.parseInt(bagian3));
+				double ndesimal2 = (double) (nbil2 * penyebut2 + pembilang2) / penyebut2;
+				
+				System.out.println("Desimal: -" + ndesimal2);
+				System.out.println("Pecahan biasa: -" + ((nbil2 * penyebut2 + pembilang2) / fpb2) + "/" + (penyebut2 / fpb2));
+				
+			} else {
+				System.out.println("Desimal: " + desimal2);
+				System.out.println("Pecahan biasa: " + ((bil2 * penyebut2 + pembilang2) / fpb2) + "/" + (penyebut2 / fpb2));
+			}
+			
+			System.out.println("Pecahan campuran: " + pembagi2);
+			
+			break;
+			
+		case 3:
+			System.out.println("Masukkan bilangan desimal yang diinginkan: ");
+			
+			double pembagi3 = scan.nextDouble();
+			
+			String pembagi3s = Double.toString(pembagi3);
+			
+			System.out.println("Hasil bilangan desimal tersebut sama dengan: ");
+			System.out.println("Desimal: " + pembagi3);
+			
+			if (pembagi3s.contains(".")) {
+				String[] strpembagi3 = pembagi3s.split("\\.");
+				String bagian6 = strpembagi3[0];
+				String bagian7 = strpembagi3[1];
+				
+				int penyebut3 = (int) Math.pow(10, bagian7.length());
+				int pembilang3 = (int) (Double.parseDouble(bagian6) * penyebut3 + Double.parseDouble(bagian7));
+				
+				int fpb3 = fpb (pembilang3, penyebut3);
+				int bil3 = (int) Math.floor(pembilang3 / penyebut3);
+				
+				if (Integer.parseInt(bagian6) < 0) {
+					int npembilang3 = (int) (Double.parseDouble(bagian6) * penyebut3 - Double.parseDouble(bagian7));
+					int nbil3 = (int) Math.ceil(npembilang3 / penyebut3);
+					
+					System.out.println("Pecahan biasa: " + (npembilang3 / fpb3) * -1 + "/" + Math.abs(penyebut3 / fpb3));
+					System.out.println("Pecahan campuran: " + nbil3 + " " + ((npembilang3 - nbil3 * penyebut3) / fpb3) * -1 + "/" + Math.abs(penyebut3 / fpb3));
+					
+				} else {
+					System.out.println("Pecahan biasa: " + (pembilang3 / fpb3) + "/" + (penyebut3 / fpb3));
+					System.out.println("Pecahan campuran: " + bil3 + " " + ((pembilang3 - bil3 * penyebut3) / fpb3) + "/" + (penyebut3 / fpb3));
+				}
+				
+			} else {
+				String bagian6 = pembagi3s;
+				
+				System.out.println("Pecahan biasa: " + bagian6 + "/1");
+				System.out.println("Pecahan campuran: " + bagian6 + " 0/1");
+			}
+			
+			break;
+			
+		default:
+			break;
+		}
+	}
+}
