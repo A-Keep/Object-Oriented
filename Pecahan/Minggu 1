@@ -1,3 +1,4 @@
+```java
 import java.util.Scanner;
 
 public class T1Pecahan {	
@@ -133,3 +134,4 @@ public class T1Pecahan {
 		}
 	}
 }
+```
