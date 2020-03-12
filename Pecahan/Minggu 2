@@ -1,0 +1,128 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Tugas2 {
+	public static int fpb (int a, int b) {
+		if (a == 0) return b;
+		return fpb (b % a, a);
+	}
+	
+	Scanner scan = new Scanner (System.in);
+	
+	String pilihan;
+	ArrayList<String> inputan = new ArrayList<String>();
+	
+	public void desimal (int i) {
+		String desimal = inputan.get(i).toString();
+		String[] strdesimal = desimal.split("\\.");
+		String des1 = strdesimal[0];
+		String des2 = strdesimal[1];
+			
+		int penyebut3 = (int) Math.pow(10, des2.length());
+		int pembilang3 = (int) (Double.parseDouble(des1) * penyebut3 + Double.parseDouble(des2));
+			
+		int fpb3 = fpb (pembilang3, penyebut3);
+		int bil3 = (int) Math.floor(pembilang3 / penyebut3);
+			
+		System.out.println("==> Bilangan desimal: " + desimal);
+		
+		if (Integer.parseInt(des1) < 0) {
+			int npembilang3 = (int) (Double.parseDouble(des1) * penyebut3 - Double.parseDouble(des2));
+			int nbil3 = (int) Math.ceil(npembilang3 / penyebut3);
+				
+			System.out.println("Pecahan biasa: " + (npembilang3 / fpb3) * -1 + "/" + Math.abs(penyebut3 / fpb3));
+			System.out.println("Pecahan campuran: " + nbil3 + " " + ((npembilang3 - nbil3 * penyebut3) / fpb3) * -1 + "/" + Math.abs(penyebut3 / fpb3));
+				
+		} else {
+			System.out.println("Pecahan biasa: " + (pembilang3 / fpb3) + "/" + (penyebut3 / fpb3));
+			System.out.println("Pecahan campuran: " + bil3 + " " + ((pembilang3 - bil3 * penyebut3) / fpb3) + "/" + (penyebut3 / fpb3));
+		}
+			
+		System.out.println();
+	}
+	
+	public void biasa (int i) {
+		String biasa = inputan.get(i).toString();
+		String[] strbiasa = biasa.split("/");
+		String bia1 = strbiasa[0];
+		String bia2 = strbiasa[1];
+			
+		int pembilang1 = Integer.parseInt(bia1);
+		int penyebut1 = Integer.parseInt(bia2);
+			
+		int fpb = fpb (pembilang1, penyebut1);
+			
+		double des = (double) pembilang1 / penyebut1;
+		int bil = (int) Math.floor(pembilang1 / penyebut1);
+			
+		System.out.println("Desimal: " + des);
+			
+		if (pembilang1 < 0 | penyebut1 < 0) {
+			int nbil = (int) Math.abs(pembilang1 / penyebut1);
+				
+			System.out.println("==> Pecahan biasa: " + (pembilang1 / fpb) * -1 + "/" + Math.abs(penyebut1 / fpb));
+			System.out.println("Pecahan campuran: " + nbil * -1 + " " + (Math.abs((pembilang1 - bil * penyebut1) / fpb)) * -1 + "/" + (Math.abs(penyebut1 / fpb)));
+				
+		} else {
+			System.out.println("==> Pecahan biasa: " + (pembilang1 / fpb) + "/" + (penyebut1 / fpb));
+			System.out.println("Pecahan campuran: " + bil + " " + ((pembilang1 - bil * penyebut1) / fpb) + "/" + (penyebut1 / fpb));
+		}
+		
+		System.out.println();
+	}
+	
+	public void campuran (int i) {
+		String campuran = inputan.get(i).toString();
+		String[] strcampuran = campuran.split("\\s|/");
+		String cam1 = strcampuran[0];
+		String cam2 = strcampuran[1];
+		String cam3 = strcampuran[2];
+			
+		int bil2 = Integer.parseInt(cam1);
+		int pembilang2 = Integer.parseInt(cam2);
+		int penyebut2 = Integer.parseInt(cam3);
+			
+		int fpb2 = fpb (pembilang2, penyebut2);
+		
+		double des2 = (double) (bil2 * penyebut2 + pembilang2) / penyebut2;
+			
+		if (bil2 < 0) {
+			int nbil2 = Math.abs(Integer.parseInt(cam1));
+			double ndesimal2 = (double) (nbil2 * penyebut2 + pembilang2) / penyebut2;
+			
+			System.out.println("Desimal: -" + ndesimal2);
+			System.out.println("Pecahan biasa: -" + ((nbil2 * penyebut2 + pembilang2) / fpb2) + "/" + (penyebut2 / fpb2));
+			
+		} else {
+			System.out.println("Desimal: " + des2);
+			System.out.println("Pecahan biasa: " + ((bil2 * penyebut2 + pembilang2) / fpb2) + "/" + (penyebut2 / fpb2));
+		}
+		
+		System.out.println("==> Pecahan campuran: " + campuran);
+		System.out.println();
+	}
+
+	public Tugas2 () {		
+		while (true) {
+			pilihan = scan.nextLine();
+			inputan.add(pilihan);
+			
+			if (pilihan.equals("0")) break;
+		}
+		
+		for (int i=0; i<inputan.size(); i++) {
+			System.out.println(inputan.get(i));
+			if (inputan.get(i).contains("."))
+				desimal (i);
+			else if (inputan.get(i).contains("/") && !inputan.get(i).contains(" "))
+				biasa (i);
+			else if (inputan.get(i).contains(" "))
+				campuran (i);
+		}		
+	}
+
+	public static void main(String[] args) {
+		new Tugas2 ();
+	}
+}
